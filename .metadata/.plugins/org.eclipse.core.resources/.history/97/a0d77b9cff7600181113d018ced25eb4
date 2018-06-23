@@ -1,0 +1,6 @@
+package tk.mybatis.simple.model;
+
+public class Country {
+	private long id;
+	
+}
