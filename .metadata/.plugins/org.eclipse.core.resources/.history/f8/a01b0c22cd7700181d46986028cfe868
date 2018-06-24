@@ -1,0 +1,23 @@
+package tk.mybatis.simple.model;
+
+import java.sql.Date;
+
+/*
+ * 用户表
+ */
+public class SysUser {
+	//用户Id
+	private Long id;
+	//用户名
+	private String userName;
+	//密码
+	private String userPassword;
+	//邮箱
+	private String userEmail;
+	//简介
+	private String userInfo;
+	//头像
+	private byte[] headImg;
+	//创建时间
+	private Date creteTime;
+}
