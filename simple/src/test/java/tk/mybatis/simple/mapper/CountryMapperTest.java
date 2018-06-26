@@ -1,22 +1,16 @@
 package tk.mybatis.simple.mapper;
 
-import java.io.IOException;
-import java.io.Reader;
 import java.util.List;
 
-import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import tk.mybatis.simple.model.Country;
 
-public class CountryMapperTest {
-	private static SqlSessionFactory sqlSessionFactory;
+public class CountryMapperTest extends BaseMapperTest {
+	/*private static SqlSessionFactory sqlSessionFactory;*/
 	
-	@BeforeClass
+	/*@BeforeClass
 	public static void init() {
 		try {
 			//通过Resources工具类将mybatis-config.xml配置文件读入Reader
@@ -27,15 +21,16 @@ public class CountryMapperTest {
 		} catch (IOException ignore) {
 			ignore.printStackTrace();
 		}
-	}
+	}*/
 	
 	@Test
 	public void testSelectAll() {
-		//通过SqlSessionFactory工厂对象获取一个SqlSession
-		SqlSession sqlSession = sqlSessionFactory.openSession();
+		//获取一个SqlSession
+		SqlSession sqlSession = getSqlSession();
 		try {
 			//通过SqlSession的selectList方法查找到CountryMapper.xml中的id="selectAll"的方法，执行SQL查询
-			List<Country> countryList = sqlSession.selectList("selectAll");
+			//此时使用的是公共Mapper测试库，所有selectAll不在是唯一的了，调用时必须带上命名空间（namespace）
+			List<Country> countryList = sqlSession.selectList("tk.mybatis.simple.mapper.CountryMapper.selectAll");
 			printCountryList(countryList);
 		} finally {
 			//关闭sqlSession
@@ -44,6 +39,10 @@ public class CountryMapperTest {
 		}
 	}
 	
+	/**
+	 * 循序打印结果集
+	 * @param countryList
+	 */
 	private void printCountryList(List<Country> countryList) {
 		for (Country country : countryList) {
 			System.out.printf("%-4d%4s%4s\n", 

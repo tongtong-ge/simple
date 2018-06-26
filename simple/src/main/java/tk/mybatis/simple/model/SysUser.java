@@ -19,7 +19,7 @@ public class SysUser {
 	//头像
 	private byte[] headImg;
 	//创建时间
-	private Date creteTime;
+	private Date createTime;
 	
 	public Long getId() {
 		return id;
@@ -57,10 +57,10 @@ public class SysUser {
 	public void setHeadImg(byte[] headImg) {
 		this.headImg = headImg;
 	}
-	public Date getCreteTime() {
-		return creteTime;
+	public Date getCreateTime() {
+		return createTime;
 	}
-	public void setCreteTime(Date creteTime) {
-		this.creteTime = creteTime;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 }
