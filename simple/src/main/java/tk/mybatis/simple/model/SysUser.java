@@ -1,6 +1,6 @@
 package tk.mybatis.simple.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 /*
  * 用户表
