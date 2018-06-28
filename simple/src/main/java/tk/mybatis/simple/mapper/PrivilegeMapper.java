@@ -1,5 +1,11 @@
 package tk.mybatis.simple.mapper;
 
-public interface PrivilegeMapper {
+import org.apache.ibatis.annotations.SelectProvider;
 
+import tk.mybatis.simple.model.SysPrivilege;
+import tk.mybatis.simple.PrivilegeProvider;
+
+public interface PrivilegeMapper {
+	@SelectProvider(type = PrivilegeProvider.class, method = "selectById")
+	SysPrivilege selectById(Long id);
 }
