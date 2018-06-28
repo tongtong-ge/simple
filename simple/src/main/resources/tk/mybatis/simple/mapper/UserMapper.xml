@@ -90,4 +90,23 @@
         inner join sys_role r on ur.role_id = r.id
         where u.id = #{user.id} and r.enabled = #{role.enabled}
     </select>
+    
+    <!-- 动态SQL语句  -->
+    <select id="selectByUser" resultType="tk.mybatis.simple.model.SysUser">
+        select id,
+            user_name userName,
+            user_password userPassword,
+            user_email userEmail,
+            user_info userInfo,
+            head_img headImg,
+            create_time createTime
+        from sys_user
+        where 1 = 1 
+        <if test="userName != null and userName != ''">  <!-- test的属性值是一个符号OGNL要求的判断表达式  -->
+            and user_name like concat('%', #{userName}, '%')
+        </if>
+        <if test="userEmail != null and userEmail != ''">
+            and user_email = #{userEmail}
+        </if>
+    </select>
 </mapper>
