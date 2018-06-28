@@ -11,6 +11,7 @@ import tk.mybatis.simple.model.SysRole;
 import tk.mybatis.simple.model.SysUser;
 
 public class UserMapperTest extends BaseMapperTest {
+	/********
 	@Test
 	public void testSelectById() {
 		// 获取SqlSession
@@ -143,4 +144,78 @@ public class UserMapperTest extends BaseMapperTest {
 			sqlSession.close();
 		}
 	}
+	
+	@Test
+	public void testUpdateById() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			// 从数据库查询1个user对象
+			SysUser user = userMapper.selectById(1L);
+			// 当前userName为admin
+			Assert.assertEquals("admin", user.getUserName());
+			// 修改用户名
+			user.setUserName("admin_test");
+			// 修改邮箱
+			user.setUserEmail("admin_test@mybatis.com");
+			// 更新数据，返回的result是执行Sql影响的行数
+			int result = userMapper.updateById(user);
+			// 只更新1条数据
+			Assert.assertEquals(1, result);
+			// 根据当前id查询修改后的数据
+			user = userMapper.selectById(1L);
+			// 修改后的名字是admin_test
+			Assert.assertEquals("admin_test", user.getUserName());
+		} finally {
+			sqlSession.rollback();
+			// 关闭sqlSession
+			sqlSession.close();
+		}
+	}
+	*/
+	
+	/**
+	@Test
+	public void testDeleteById() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			// 从数据库查询1个user对象，根据id=1查询
+			SysUser user = userMapper.selectById(1L);
+			// 现在还能查询出user对象
+			Assert.assertNotNull(user);
+			// 删除数据，返回的result是执行Sql影响的行数
+			int result = userMapper.deleteById(1L);
+			// 调用方法删除
+			Assert.assertEquals(1, result);
+			// 再次查询，这时应该没有值，为null
+			user = userMapper.selectById(1L);
+			Assert.assertNull(user);
+			
+			SysUser user2 = userMapper.selectById(2L);
+			Assert.assertNotNull(user2);
+			Assert.assertEquals(1, userMapper.deleteById(user2));
+			Assert.assertNull(userMapper.selectById(2L));
+		} finally {
+			sqlSession.rollback();
+			// 关闭sqlSession
+			sqlSession.close();
+		}
+	}
+	*/
+	
+	@Test
+	public void testSelectRoleByUserIdAndRoleEnabled() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			List<SysRole> roleList = userMapper.selectRolesByUserIdAndRoleEnabled(1L, 1);
+			Assert.assertNotNull(roleList);
+			Assert.assertTrue(roleList.size() > 0);
+		} finally {
+			// 关闭sqlSession
+			sqlSession.close();
+		}
+	}
+	
 }
