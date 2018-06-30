@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+    PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+    "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+    
+<generatorConfiguration>
+    <classPathEntry location="C:\Users\tongtong.ge\.m2\repository\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar"/>
+    
+    <!-- targetRuntime设置为MyBatist3Simple 是为了不生成Example相关的代码和方法  -->
+    <!-- 如需要生成Example相关的代码，可以设置为MyBatist3 -->
+    <!-- defaultModelType设置为flat，使每个表生成一个实体类，当没有复杂的类继承时，使用很方便 -->
+    <context id="MySqlContext" targetRuntime="MyBatis3" defaultModelType="flat"> 
+        <!-- 自动给关键词添加分隔符  -->
+        <property name="autoDelimitKeywords" value="true"/>
+        <!-- 使用的数据库时MySql，所以前后分隔符设置为"`" -->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        
+        <property name="javaFileEncoding" value="UTF-8"/>
+        
+        <!-- 注释生成器 commentGenerator中配置了生成数据库的注释信息  -->
+        <!-- 禁用在注释中生成日期  -->
+        <commentGenerator>
+            <property name="supperssDate" value="true"/>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
+        
+        <!-- 连接数据库的数据源信息  -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" 
+            connectionURL="jdbc:mysql://localhost:3306/mybatis" 
+            userId="root" password="123456">
+        </jdbcConnection>
+        
+        <!-- 配置生成的包名  -->
+        <javaModelGenerator targetPackage="tk.mybatis.simple.model" 
+                            targetProject="simple\src\main\java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        
+        <!-- 配置生成的Mapper.xml文件的位置  -->         
+        <sqlMapGenerator targetPackage="tk.mybatis.simple.mapper" 
+                         targetProject="simple\src\main\resources"/>
+        
+        <!-- 配置生成Mapper接口的位置 采用XMLMAPPER类型 接口和XML完全分离  -->
+        <javaClientGenerator targetPackage="tk.mybatis.simple.mapper" 
+                             type="XMLMAPPER" 
+                             targetProject="simple\src\main\java"/>
+        
+        <!-- country表 -->
+        <table tableName="country">
+            <generatedKey column="id" sqlStatement="MySql"/>
+        </table>
+    </context>
+</generatorConfiguration>

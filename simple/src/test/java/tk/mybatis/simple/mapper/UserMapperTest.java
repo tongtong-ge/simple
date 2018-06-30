@@ -27,7 +27,7 @@ public class UserMapperTest extends BaseMapperTest {
 			// user不为空
 			Assert.assertNotNull(user);
 			// userName = admin
-			Assert.assertEquals("admin", user.getUserName());
+			Assert.assertEquals("admin", user.getUserName()); 
 		} finally {
 			// 关闭sqlSession
 			sqlSession.close();
