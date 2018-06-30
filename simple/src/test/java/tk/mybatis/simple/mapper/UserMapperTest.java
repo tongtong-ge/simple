@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.jdbc.Null;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,7 +15,8 @@ import tk.mybatis.simple.model.SysRole;
 import tk.mybatis.simple.model.SysUser;
 
 public class UserMapperTest extends BaseMapperTest {
-
+	
+	/**
 	@Test
 	public void testSelectById() {
 		// 获取SqlSession
@@ -384,6 +386,38 @@ public class UserMapperTest extends BaseMapperTest {
 		} finally {
 			sqlSession.rollback();
 			// 关闭sqlSession
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testSelectUserAndRoleById() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			// 获取UserMapper接口
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			SysUser user = userMapper.selectUserAndRoleById2(1L);
+			Assert.assertNotNull(user);
+			Assert.assertNotNull(user.getRole());
+		} finally {
+			sqlSession.close();
+		}
+	}
+	*/
+	
+	@Test
+	public void testSelectUserAndRoleByIdSelect() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			// 获取UserMapper接口
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			SysUser user = userMapper.selectUserAndRoleByIdSelect(1L);
+			Assert.assertNotNull(user);
+			System.out.println("调用user.equals(null)");
+			user.equals(null);
+			System.out.println("调用user.getRole()");
+			Assert.assertNotNull(user.getRole());
+		} finally {
 			sqlSession.close();
 		}
 	}
