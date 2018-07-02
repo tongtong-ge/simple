@@ -9,9 +9,35 @@
         <result property="createBy" column="create_by"/>
         <result property="createTime" column="create_time" 
                jdbcType="TIMESTAMP"/>
+        <!-- <association property="createInfo">
+            <result property="createBy" column="create_by"/>
+            <result property="createTime" column="create_time" 
+                    jdbcType="TIMESTAMP"/>
+        </association> -->
     </resultMap>
     
     <select id="selectRoleById" resultMap="roleMap">
         select * from sys_role where id = #{id}
+    </select>
+    
+    <resultMap type="tk.mybatis.simple.model.SysRole" 
+               id="rolePrivilegeListMap" extends="roleMap">
+        <collection property="privilegeList" columnPrefix="privilege_"
+                    resultMap="tk.mybatis.simple.mapper.PrivilegeMapper.privilegeMap"/>
+    </resultMap>
+    
+    <select id="selectAllRoleAndPrivileges" resultMap="rolePrivilegeListMap">
+        select 
+            r.id,
+            r.role_name,
+            r.enabled,
+            r.create_by,
+            r.create_time,
+            p.id privilege_id,
+            p.privilege_name privilege_privilege_name,
+            p.privilege_url privilege_privilege_url
+        from sys_role r
+        inner join sys_role_privilege rp on r.id = rp.role_id
+        inner join sys_privilege p on rp.privilege_id = p.id
     </select>
 </mapper>
