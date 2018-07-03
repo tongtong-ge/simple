@@ -58,4 +58,28 @@
         inner join sys_user_role ur on ur.role_id = r.id
         where ur.user_id = #{userId}
     </select>
+    
+    <!-- 角色的属性enabled值为1的时候表示状态可用，为0的时候表示状态不可用  -->
+    <resultMap type="tk.mybatis.simple.model.SysRole" id="rolePrivilegeListMapChoose">
+        <discriminator javaType="int" column="enabled">
+            <case value="1" resultMap="rolePrivilegeListMapSelect"/>
+            <!-- 只会对列举出来的配置进行映射 使用resultMap配置会自动映射其他字段 -->
+            <case value="0" resultType="tk.mybatis.simple.model.SysRole">
+                <id property="id" column="id"/>
+                <result property="roleName" column="role_name"/>
+            </case>
+        </discriminator>
+    </resultMap>
+    
+    <select id="selectRoleByUserIdChoose" resultMap="rolePrivilegeListMapChoose">
+        select
+            r.id,
+            r.role_name,
+            r.enabled,
+            r.create_by,
+            r.create_time
+        from sys_role r
+        inner join sys_user_role ur on ur.role_id = r.id
+        where ur.user_id = #{userId}
+    </select>
 </mapper>
