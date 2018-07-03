@@ -10,7 +10,7 @@ import tk.mybatis.simple.model.SysPrivilege;
 import tk.mybatis.simple.model.SysRole;
 
 public class RoleMapperTest extends BaseMapperTest {
-
+	/**
 	@Test
 	public void testSelectAll() {
 		//获取一个SqlSession
@@ -43,6 +43,21 @@ public class RoleMapperTest extends BaseMapperTest {
 					System.out.println("权限名：" + privilege.getPrivilegeName());
 				}
 			}
+		} finally {
+			sqlSession.close();
+		}
+	}
+	*/
+	
+	@Test
+	public void testSelectRoleByUserId() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
+			SysRole role = roleMapper.selectRoleByUserId(1L);
+			Assert.assertNotNull(role);
+			List<SysPrivilege> privilegeList = role.getPrivilegeList();
+			Assert.assertNotNull(privilegeList);
 		} finally {
 			sqlSession.close();
 		}

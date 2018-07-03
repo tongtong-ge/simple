@@ -82,7 +82,7 @@ public class SysUser {
 		this.role = role;
 	}
 	
-	public List<SysRole> getroleList() {
+	public List<SysRole> getRoleList() {
 		return roleList;
 	}
 	public void setRoleList(List<SysRole> roleList) {

@@ -1,5 +1,7 @@
 package tk.mybatis.simple.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 import org.junit.Test;
@@ -7,7 +9,7 @@ import org.junit.Test;
 import tk.mybatis.simple.model.SysPrivilege;
 
 public class PrivilegeMapperTest extends BaseMapperTest {
-	
+	/**
 	@Test
 	public void testSelectById() {
 		SqlSession sqlSession = getSqlSession();
@@ -21,5 +23,17 @@ public class PrivilegeMapperTest extends BaseMapperTest {
 			sqlSession.close();
 		}
 	}
+	*/
 	
+	@Test
+	public void testSelectPrivilegeByRoleId() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			PrivilegeMapper privilegeMapper = sqlSession.getMapper(PrivilegeMapper.class);
+			List<SysPrivilege> privilegeList = privilegeMapper.selectPrivilegeByRoleId(1L);
+			Assert.assertNotNull(privilegeList);
+		} finally {
+			sqlSession.close();
+		}
+	}
 }

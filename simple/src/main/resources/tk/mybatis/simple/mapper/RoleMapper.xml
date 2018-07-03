@@ -40,4 +40,22 @@
         inner join sys_role_privilege rp on r.id = rp.role_id
         inner join sys_privilege p on rp.privilege_id = p.id
     </select>
+    
+    <resultMap type="tk.mybatis.simple.model.SysRole" 
+               id="rolePrivilegeListMapSelect" extends="roleMap">
+        <collection property="privilegeList" fetchType="lazy" column="{roleId=id}" 
+                    select="tk.mybatis.simple.mapper.PrivilegeMapper.selectPrivilegeByRoleId" />           
+    </resultMap>
+    
+    <select id="selectRoleByUserId" resultMap="rolePrivilegeListMapSelect">
+        select 
+            r.id,
+            r.role_name,
+            r.enabled,
+            r.create_by,
+            r.create_time
+        from sys_role r
+        inner join sys_user_role ur on ur.role_id = r.id
+        where ur.user_id = #{userId}
+    </select>
 </mapper>
