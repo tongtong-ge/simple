@@ -442,7 +442,6 @@ public class UserMapperTest extends BaseMapperTest {
 			sqlSession.close();
 		}
 	}
-	*/
 	
 	@Test
 	public void testSelectAllUserAndRolesSelect() {
@@ -457,6 +456,71 @@ public class UserMapperTest extends BaseMapperTest {
 					System.out.println("权限名：" + privilege.getPrivilegeName());
 				}
 			}
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testSelectUserById() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			SysUser user = new SysUser();
+			user.setId(1L);
+			userMapper.selectUserById(user);
+			Assert.assertNotNull(user.getUserName());
+			System.out.println("用户名：" + user.getUserName());
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testSelectUserPage() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("userName", "ads");
+			params.put("offset", 0);
+			params.put("limit", 10);
+			
+			List<SysUser> userList = userMapper.selectUserPage(params);
+			Long total = (Long) params.get("total");
+			
+			System.out.println("总数：" + total);
+			for (SysUser user : userList) {
+				System.out.println("用户名：" + user.getUserName());
+			}
+		} finally {
+			sqlSession.close();
+		}
+	}
+	*/
+	
+	@Test
+	public void testInsertUserAndRoles() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			SysUser user = new SysUser();
+			user.setUserName("test1");
+			user.setUserPassword("123456");
+			user.setUserEmail("test@mybatis.com");
+			user.setUserInfo("test info");
+			user.setHeadImg(new byte[]{1, 2, 3});
+			// 插入用户信息和角色关联信息
+			userMapper.insertUserAndRoles(user, "1,2");
+			Assert.assertNotNull(user.getId());
+			Assert.assertNotNull(user.getCreateTime());
+			// 可以执行commit后再查看数据库中的数据
+			sqlSession.commit();
+			
+			// 删除
+			/*userMapper.deleteUserById(user.getId());
+			sqlSession.commit();*/
 		} finally {
 			sqlSession.close();
 		}
