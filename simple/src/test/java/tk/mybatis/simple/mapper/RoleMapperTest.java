@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import tk.mybatis.simple.model.SysPrivilege;
 import tk.mybatis.simple.model.SysRole;
+import tk.mybatis.simple.type.Enabled;
 
 public class RoleMapperTest extends BaseMapperTest {
 	/**
@@ -61,7 +62,6 @@ public class RoleMapperTest extends BaseMapperTest {
 			sqlSession.close();
 		}
 	}
-	*/
 	
 	@Test
 	public void testSelectRoleByUserIdChoose() {
@@ -87,6 +87,23 @@ public class RoleMapperTest extends BaseMapperTest {
 				}
 			}
 		} finally {
+			sqlSession.close();
+		}
+	}
+	*/
+	
+	@Test
+	public void testUpdateById() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
+			// 先查询出角色，然后修改角色的enabled值为disabled
+			SysRole role = roleMapper.selectById(2L);
+			Assert.assertEquals(Enabled.enabled, role.getEnabled());
+			role.setEnabled(Enabled.disabled);
+			roleMapper.updateById(role);
+		} finally {
+			sqlSession.rollback();
 			sqlSession.close();
 		}
 	}

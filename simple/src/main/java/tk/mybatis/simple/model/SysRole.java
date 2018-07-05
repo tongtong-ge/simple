@@ -3,10 +3,16 @@ package tk.mybatis.simple.model;
 import java.sql.Date;
 import java.util.List;
 
+import tk.mybatis.simple.type.Enabled;
+
 public class SysRole {
 	private Long id;
 	private String roleName;
-	private Integer enabled;
+	
+	/**
+	 * 有效标识
+	 */
+	private Enabled enabled;
 	private Long createBy;
 	private Date createTime;
 	
@@ -37,10 +43,10 @@ public class SysRole {
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
-	public Integer getEnabled() {
+	public Enabled getEnabled() {
 		return enabled;
 	}
-	public void setEnabled(Integer enabled) {
+	public void setEnabled(Enabled enabled) {
 		this.enabled = enabled;
 	}
 	public Long getCreateBy() {
